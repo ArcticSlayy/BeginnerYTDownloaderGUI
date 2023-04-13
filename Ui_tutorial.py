@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'c:\Users\Josh\Desktop\Python\YT Downloader\tutorial.ui'
+# Form implementation generated from reading ui file 'c:\Users\Josh\Desktop\Python\BeginnerYTDownloaderGUI\tutorial.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
@@ -16,7 +16,7 @@ class Ui_mainWindow(object):
         mainWindow.setObjectName("mainWindow")
         mainWindow.resize(732, 614)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("c:\\Users\\Josh\\Desktop\\Python\\YT Downloader\\../../../Downloads/youtube-logo-hd-8.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("c:\\Users\\Josh\\Desktop\\Python\\BeginnerYTDownloaderGUI\\../../../Downloads/youtube-logo-hd-8.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         mainWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(mainWindow)
         self.centralwidget.setObjectName("centralwidget")

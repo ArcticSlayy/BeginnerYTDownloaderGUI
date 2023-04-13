@@ -16,6 +16,8 @@ class MainUI(QMainWindow):
         self.video_button.clicked.connect(self.doActionVideo)
         self.audio_button.clicked.connect(self.doActionAudio)
         self.add_button.clicked.connect(self.addIt)
+        self.remove_button.clicked.connect(self.removeIt)
+
         self.download_path = os.environ['USERPROFILE']+"\\Desktop"
         self.download_list = []
 
@@ -54,7 +56,6 @@ class MainUI(QMainWindow):
         else:
             self.status_label.setText("All video downloads are complete")
 
-
     def doActionAudio(self):
         if not self.download_list:
             self.status_label.setText("Please add a video URL to download")
@@ -86,12 +87,8 @@ class MainUI(QMainWindow):
     def addIt(self):
         #Gets the url from the text
         url = self.url_text.toPlainText()
-        
-        #setting the pattern to understand a valid url
-        url_pattern = re.compile(r'http(s)?://[a-zA-Z0-9./]+')
-
         if url:
-            if not url_pattern.match(url):
+            if "youtube.com" not in url:
                 self.status_label.setText("Invalid URL, please ensure you're copying the https://www.youtube.com/ link")
                 return
             self.url_list.addItem(url)
@@ -99,7 +96,13 @@ class MainUI(QMainWindow):
 
             self.url_text.setPlainText("")
         else:
-            self.status_label.setText("Please enter text")
+            self.status_label.setText("Text is blank, please enter your URL into the top bar.")
+    def removeIt(self):
+            item_tbd = self.url_list.currentRow()
+            self.url_list.takeItem(item_tbd)
+            deleting_item = self.download_list[item_tbd]
+            self.status_label.setText(f"Successfully removed {str(self.download_list[item_tbd])} from your URL list.")
+
 
 if __name__=="__main__":
     app = QApplication(sys.argv)
