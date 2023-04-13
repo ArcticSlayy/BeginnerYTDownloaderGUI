@@ -37,6 +37,7 @@ class MainUI(QMainWindow):
             self.status_label.setText(f'Your YouTube video\'s title is: {yt.title} \n')
 
             video = yt.streams.get_highest_resolution()
+            #had to remove pipes and odd characters
             file_name = yt.title.replace('|', '') + '.mp4'
             downloaded_file = os.path.join(self.download_path, file_name)
 
@@ -47,13 +48,6 @@ class MainUI(QMainWindow):
                 self.status_label.setText(f'Downloading {yt.title}...')
                 video.download(output_path=self.download_path)
                 self.status_label.setText(f'Your video download is complete for {yt.title}')
-
-            # setting for loop to set value of progress bar
-            # for i in range(101):
-            # slowing down the loop
-            # time.sleep(0.04)
-            # setting value to progress bar
-            # self.progressBar.setValue(i)
 
         if skipped:
             self.status_label.setText(f"Some video downloads were skipped because the files already existed. \n File skipped: {skipped_file}")
@@ -71,29 +65,24 @@ class MainUI(QMainWindow):
             yt = YouTube(url, on_progress_callback=self.progress_func)
             self.status_label.setText(f'Your YouTube video\'s title is: {yt.title} \n')
 
-            audio = yt.streams.filter(type="audio").first()
-            downloaded_file = os.path.join(self.download_path, yt.title) + '.mp4'
+            audio = yt.streams.yt.streams.filter(type="audio").first()
+            #had to remove pipes and odd characters
+            file_name = yt.title.replace('|', '') + '.mp4'
+            downloaded_file = os.path.join(self.download_path, file_name)
 
             if os.path.exists(downloaded_file):
-                self.status_label.setText(f'Your file already exists at {downloaded_file}')
-                skipped_file = downloaded_file
                 skipped = True
+                skipped_file = downloaded_file
             else:
                 self.status_label.setText(f'Downloading {yt.title}...')
                 audio.download(output_path=self.download_path)
-                self.status_label.setText(f'Your video download is complete for {yt.title}')
-
-                # setting for loop to set value of progress bar
-                #for i in range(101):
-                    # s\lowing down the loop
-                    #time.sleep(0.04)
-                    # setting value to progress bar
-                    #self.progressBar.setValue(i)
+                self.status_label.setText(f'Your audio download is complete for {yt.title}')
 
         if skipped:
             self.status_label.setText(f"Some audio downloads were skipped because the files already existed. \n File skipped: {skipped_file}")
         else:
             self.status_label.setText("All audio downloads are complete")
+
     def addIt(self):
         #Gets the url from the text
         url = self.url_text.toPlainText()
