@@ -100,6 +100,7 @@ class MainUI(QMainWindow):
     def removeIt(self):
             item_tbd = self.url_list.currentRow()
             self.url_list.takeItem(item_tbd)
+            #Was just debugging to see if the index was right
             deleting_item = self.download_list[item_tbd]
             self.status_label.setText(f"Successfully removed {str(self.download_list[item_tbd])} from your URL list.")
 
