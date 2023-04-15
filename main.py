@@ -6,7 +6,6 @@ from PyQt5.uic import loadUi
 import time
 import os
 import sys
-import re
 
 class MainUI(QMainWindow):
     def __init__(self):
@@ -17,7 +16,10 @@ class MainUI(QMainWindow):
         self.audio_button.clicked.connect(self.doActionAudio)
         self.add_button.clicked.connect(self.addIt)
         self.remove_button.clicked.connect(self.removeIt)
+        self.clear_button.clicked.connect(self.clearIt)
 
+        self.resolution_dropdown.addItems(['Low(360p)', 'Medium(720p)', 'High(1080p)'])
+        
         self.download_path = os.environ['USERPROFILE']+"\\Desktop"
         self.download_list = []
 
@@ -29,16 +31,31 @@ class MainUI(QMainWindow):
 
 
     def doActionVideo(self):
+    
+        
         if not self.download_list:
             self.status_label.setText("Please add a video URL to download")
             return
+        
+        # Determine selected resolution
+        resolution = self.resolution_dropdown.currentText()
+        if resolution == "Low(360p)":
+            resolution_str = "360p"
+        elif resolution == "Medium(720p)":
+            resolution_str = "720p"
+        elif resolution == "High(1080p)":
+            resolution_str = "1080p"
+        
+        self.resolution_label.setText(f'Resolution: {self.resolution_dropdown.currentText()}')
+        
 
         skipped = False
         for url in self.download_list:
             yt = YouTube(url, on_progress_callback=self.progress_func)
             self.status_label.setText(f'Your YouTube video\'s title is: {yt.title} \n')
 
-            video = yt.streams.get_highest_resolution()
+            video = yt.streams.filter(res=resolution_str).first()            
+            
             #had to remove pipes and odd characters
             file_name = yt.title.replace('|', '') + '.mp4'
             downloaded_file = os.path.join(self.download_path, file_name)
@@ -103,7 +120,10 @@ class MainUI(QMainWindow):
             #Was just debugging to see if the index was right
             deleting_item = self.download_list[item_tbd]
             self.status_label.setText(f"Successfully removed {str(self.download_list[item_tbd])} from your URL list.")
-
+    def clearIt(self):
+        self.url_list.clear()  # clears the URL list widget
+        self.download_list.clear()  # clers the download URL list
+        self.status_label.setText("URL list cleared") 
 
 if __name__=="__main__":
     app = QApplication(sys.argv)
