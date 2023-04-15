@@ -118,11 +118,12 @@ class MainUI(QMainWindow):
             item_tbd = self.url_list.currentRow()
             self.url_list.takeItem(item_tbd)
             #Was just debugging to see if the index was right
-            deleting_item = self.download_list[item_tbd]
+            #deleting_item = self.download_list[item_tbd]
             self.status_label.setText(f"Successfully removed {str(self.download_list[item_tbd])} from your URL list.")
     def clearIt(self):
         self.url_list.clear()  # clears the URL list widget
-        self.download_list.clear()  # clers the download URL list
+        #At first wasnt sure which list I had to clear, did not need download_list
+        #self.download_list.clear()
         self.status_label.setText("URL list cleared") 
 
 if __name__=="__main__":
